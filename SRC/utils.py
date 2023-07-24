@@ -3,12 +3,14 @@ import sys   #for exception
 
 import numpy as np 
 import pandas as pd
-import dill   # To create pkl file
+import dill   # To load pkl file
 import pickle
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
 
 from SRC.exception import CustomException
+
+
 
 def save_object(file_path, obj):
     try:
@@ -22,6 +24,7 @@ def save_object(file_path, obj):
     except Exception as e:
         raise CustomException(e, sys)
     
+
 
 def evaluate_models(X_train, y_train,X_test,y_test,models,param):
     try:
@@ -50,6 +53,16 @@ def evaluate_models(X_train, y_train,X_test,y_test,models,param):
             report[list(models.keys())[i]] = test_model_score
 
         return report
+
+    except Exception as e:
+        raise CustomException(e, sys)
+    
+
+
+def load_object(file_path):
+    try:
+        with open(file_path, "rb") as file_obj:
+            return pickle.load(file_obj)
 
     except Exception as e:
         raise CustomException(e, sys)
